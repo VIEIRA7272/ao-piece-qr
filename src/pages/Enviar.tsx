@@ -41,6 +41,7 @@ const Enviar = () => {
       formData.append('processo', processo);
       if (titulo) formData.append('titulo', titulo);
       if (advogadoNome) formData.append('advogado_nome', advogadoNome);
+      formData.append('appUrl', window.location.origin);
       formData.append('pdf', pdfFile);
       formData.append('video', videoFile);
 
