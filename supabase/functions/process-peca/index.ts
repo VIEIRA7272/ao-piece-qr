@@ -111,18 +111,17 @@ serve(async (req) => {
 
     // 3. Gerar QR Code
     const landingUrl = `${supabaseUrl.replace('rznutgblevlaknoqfzdx.supabase.co', new URL(req.url).host)}/v/${slug}`;
-    const qrCodeDataUrl = await QRCode.toDataURL(landingUrl, {
+    
+    // Usar toBuffer() em vez de toDataURL() para funcionar no Deno
+    const qrCodeBytes = await QRCode.toBuffer(landingUrl, {
+      type: 'png',
       width: 200,
       margin: 2,
       color: {
         dark: '#000000',
-        light: '#ffffff',
+        light: '#FFFFFF',
       },
     });
-
-    // Converter data URL para bytes
-    const qrCodeBase64 = qrCodeDataUrl.split(',')[1];
-    const qrCodeBytes = Uint8Array.from(atob(qrCodeBase64), c => c.charCodeAt(0));
 
     // Upload do QR Code
     const qrCodePath = `${slug}.png`;
