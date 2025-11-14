@@ -32,10 +32,11 @@ serve(async (req) => {
     const processo = formData.get('processo') as string;
     const titulo = formData.get('titulo') as string | null;
     const advogadoNome = formData.get('advogado_nome') as string | null;
+    const appUrl = formData.get('appUrl') as string;
     const pdfFile = formData.get('pdf') as File;
     const videoFile = formData.get('video') as File;
 
-    if (!processo || !pdfFile || !videoFile) {
+    if (!processo || !pdfFile || !videoFile || !appUrl) {
       return new Response(
         JSON.stringify({ error: 'Dados obrigatórios faltando' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -110,7 +111,7 @@ serve(async (req) => {
     console.log('PDF original enviado:', pdfOriginalUrl);
 
     // 3. Gerar QR Code usando API externa (qr-server)
-    const landingUrl = `${supabaseUrl.replace('rznutgblevlaknoqfzdx.supabase.co', new URL(req.url).host)}/v/${slug}`;
+    const landingUrl = `${appUrl}/v/${slug}`;
     
     // Usar API pública do qr-server para gerar o QR Code
     const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(landingUrl)}`;
