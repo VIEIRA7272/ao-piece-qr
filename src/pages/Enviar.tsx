@@ -103,25 +103,39 @@ const Enviar = () => {
                   <p className="text-xs text-muted-foreground break-all">{result.landingUrl}</p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" className="w-full" onClick={() => window.open(result.qrCodeUrl, '_blank')}>
-                    <QrCode className="h-4 w-4 mr-2" />QR Code
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="w-full" 
-                    onClick={() => {
-                      const link = document.createElement('a');
-                      link.href = result.pdfFinalUrl;
-                      link.download = `peca_${result.slug}.pdf`;
-                      link.target = '_blank';
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }}
-                  >
-                    <Download className="h-4 w-4 mr-2" />Baixar PDF
-                  </Button>
+                <div className="space-y-4">
+                  {result.pdfFinalUrl && (
+                    <div className="border border-border rounded-lg overflow-hidden bg-secondary">
+                      <div className="p-3 bg-card border-b border-border">
+                        <h3 className="text-sm font-medium text-foreground">Prévia do PDF com QR Code</h3>
+                      </div>
+                      <iframe
+                        src={result.pdfFinalUrl}
+                        className="w-full h-[500px]"
+                        title="Prévia do PDF"
+                      />
+                    </div>
+                  )}
+                  <div className="grid grid-cols-2 gap-4">
+                    <Button variant="outline" className="w-full" onClick={() => window.open(result.qrCodeUrl, '_blank')}>
+                      <QrCode className="h-4 w-4 mr-2" />QR Code
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      onClick={() => {
+                        const link = document.createElement('a');
+                        link.href = result.pdfFinalUrl;
+                        link.download = `peca_${result.slug}.pdf`;
+                        link.target = '_blank';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
+                    >
+                      <Download className="h-4 w-4 mr-2" />Baixar PDF
+                    </Button>
+                  </div>
                 </div>
 
                 <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setResult(null)}>

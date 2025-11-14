@@ -121,15 +121,41 @@ const VideoLanding = () => {
             <h2 className="text-xl font-serif text-gold mb-4">
               Sobre o Escritório
             </h2>
-            <p className="text-muted-foreground mb-4">
-              A Almeida & Oliveira Advogados é especializada em Direito Bancário,
-              oferecendo serviços jurídicos de excelência com atendimento
-              personalizado e compromisso com os resultados de nossos clientes.
+            <p className="text-muted-foreground mb-4 leading-relaxed">
+              A Almeida & Oliveira Advogados é um escritório especializado em Direito Bancário, 
+              oferecendo soluções jurídicas personalizadas com foco em excelência e resultados. 
+              Nossa equipe está comprometida em defender os direitos de nossos clientes com ética 
+              e profissionalismo.
             </p>
-            <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-              <p>📞 Telefone: (11) 0000-0000</p>
-              <p>📧 Email: contato@almeidaoliveira.adv.br</p>
-              <p>📍 Endereço: São Paulo, SP</p>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-start gap-3">
+                <span className="text-primary text-lg">📞</span>
+                <div>
+                  <p className="font-medium text-foreground">Telefone</p>
+                  <p className="text-muted-foreground">(11) 98765-4321</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-primary text-lg">📧</span>
+                <div>
+                  <p className="font-medium text-foreground">Email</p>
+                  <p className="text-muted-foreground">contato@almeidaoliveira.adv.br</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-primary text-lg">📍</span>
+                <div>
+                  <p className="font-medium text-foreground">Endereço</p>
+                  <p className="text-muted-foreground">Av. Paulista, 1000 - Conj. 501<br />São Paulo, SP - CEP 01310-100</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-primary text-lg">🕐</span>
+                <div>
+                  <p className="font-medium text-foreground">Horário de Atendimento</p>
+                  <p className="text-muted-foreground">Segunda a Sexta: 9h às 18h</p>
+                </div>
+              </div>
             </div>
           </Card>
         </div>
