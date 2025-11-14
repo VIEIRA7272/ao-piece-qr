@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Upload, FileText, Video, Download, ExternalLink, QrCode } from "lucide-react";
+import { Upload, FileText, Video, Download, ExternalLink, QrCode, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,6 +17,7 @@ interface ProcessResult {
 }
 
 const Enviar = () => {
+  const navigate = useNavigate();
   const [processo, setProcesso] = useState("");
   const [titulo, setTitulo] = useState("");
   const [advogadoNome, setAdvogadoNome] = useState("");
@@ -69,8 +71,14 @@ const Enviar = () => {
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center mb-8">
-            <Logo />
+          <div className="mb-8">
+            <Button variant="ghost" onClick={() => navigate("/")} className="mb-4">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Voltar
+            </Button>
+            <div className="flex items-center justify-center">
+              <Logo />
+            </div>
           </div>
           
           <div className="max-w-2xl mx-auto">
@@ -117,7 +125,15 @@ const Enviar = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-center mb-8"><Logo /></div>
+        <div className="mb-8">
+          <Button variant="ghost" onClick={() => navigate("/")} className="mb-4">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Voltar
+          </Button>
+          <div className="flex items-center justify-center">
+            <Logo />
+          </div>
+        </div>
         
         <div className="max-w-2xl mx-auto">
           <Card className="p-8 bg-card border-border">
