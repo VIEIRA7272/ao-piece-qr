@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
-import QRCode from "https://esm.sh/qrcode@1.5.3";
+import { encode as encodeBase64 } from "https://deno.land/std@0.168.0/encoding/base64.ts";
 import { PDFDocument } from "https://esm.sh/pdf-lib@1.17.1";
 
 const corsHeaders = {
@@ -109,19 +109,18 @@ serve(async (req) => {
 
     console.log('PDF original enviado:', pdfOriginalUrl);
 
-    // 3. Gerar QR Code
+    // 3. Gerar QR Code usando API externa (qr-server)
     const landingUrl = `${supabaseUrl.replace('rznutgblevlaknoqfzdx.supabase.co', new URL(req.url).host)}/v/${slug}`;
     
-    // Usar toBuffer() em vez de toDataURL() para funcionar no Deno
-    const qrCodeBytes = await QRCode.toBuffer(landingUrl, {
-      type: 'png',
-      width: 200,
-      margin: 2,
-      color: {
-        dark: '#000000',
-        light: '#FFFFFF',
-      },
-    });
+    // Usar API pública do qr-server para gerar o QR Code
+    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(landingUrl)}`;
+    const qrResponse = await fetch(qrApiUrl);
+    
+    if (!qrResponse.ok) {
+      throw new Error('Erro ao gerar QR Code');
+    }
+    
+    const qrCodeBytes = new Uint8Array(await qrResponse.arrayBuffer());
 
     // Upload do QR Code
     const qrCodePath = `${slug}.png`;
