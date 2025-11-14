@@ -107,8 +107,20 @@ const Enviar = () => {
                   <Button variant="outline" className="w-full" onClick={() => window.open(result.qrCodeUrl, '_blank')}>
                     <QrCode className="h-4 w-4 mr-2" />QR Code
                   </Button>
-                  <Button variant="outline" className="w-full" onClick={() => window.open(result.pdfFinalUrl, '_blank')}>
-                    <Download className="h-4 w-4 mr-2" />PDF Final
+                  <Button 
+                    variant="outline" 
+                    className="w-full" 
+                    onClick={() => {
+                      const link = document.createElement('a');
+                      link.href = result.pdfFinalUrl;
+                      link.download = `peca_${result.slug}.pdf`;
+                      link.target = '_blank';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
+                  >
+                    <Download className="h-4 w-4 mr-2" />Baixar PDF
                   </Button>
                 </div>
 
