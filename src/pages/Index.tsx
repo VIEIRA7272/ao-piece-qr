@@ -45,7 +45,7 @@ const Index = () => {
             </Card>
           </div>
 
-          <div className="text-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-lg px-8 py-6"
@@ -53,6 +53,15 @@ const Index = () => {
             >
               <Upload className="mr-2 h-5 w-5" />
               Enviar Nova Peça
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="font-semibold text-lg px-8 py-6"
+              onClick={() => navigate("/historico")}
+            >
+              <FileCheck className="mr-2 h-5 w-5" />
+              Ver Histórico
             </Button>
           </div>
         </div>
