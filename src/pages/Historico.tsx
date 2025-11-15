@@ -79,37 +79,37 @@ const Historico = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex items-center justify-between mb-10">
           <Logo />
-          <Button variant="outline" onClick={() => navigate("/enviar")}>
+          <Button variant="outline" onClick={() => navigate("/enviar")} className="hover-lift">
             Nova Peça
           </Button>
         </div>
 
-        <Card className="p-6 bg-card border-border">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-serif text-gold">Histórico de Peças</h2>
+        <Card className="p-8 bg-card border-border/50 shadow-soft">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-serif text-gold font-semibold">Histórico de Peças</h2>
             <div className="relative w-full max-w-sm">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Buscar por número de processo..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-11 bg-secondary/50 border-border/50"
               />
             </div>
           </div>
 
           {loading ? (
-            <div className="text-center py-8">
+            <div className="text-center py-16">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-muted-foreground">Carregando...</p>
+              <p className="text-muted-foreground font-light">Carregando...</p>
             </div>
           ) : filteredPecas.length === 0 ? (
-            <div className="text-center py-8">
-              <FileText className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">
+            <div className="text-center py-16">
+              <FileText className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
+              <p className="text-muted-foreground font-light">
                 {searchTerm ? "Nenhuma peça encontrada" : "Nenhuma peça cadastrada"}
               </p>
             </div>
@@ -117,19 +117,19 @@ const Historico = () => {
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Processo</TableHead>
-                    <TableHead>Título</TableHead>
-                    <TableHead>Data</TableHead>
-                    <TableHead className="text-right">Ações</TableHead>
+                  <TableRow className="border-border/50">
+                    <TableHead className="font-medium">Processo</TableHead>
+                    <TableHead className="font-medium">Título</TableHead>
+                    <TableHead className="font-medium">Data</TableHead>
+                    <TableHead className="text-right font-medium">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredPecas.map((peca) => (
-                    <TableRow key={peca.id}>
-                      <TableCell className="font-medium">{peca.processo}</TableCell>
-                      <TableCell>{peca.titulo_peca || "Sem título"}</TableCell>
-                      <TableCell>{formatDate(peca.created_at)}</TableCell>
+                    <TableRow key={peca.id} className="border-border/30 hover:bg-secondary/30 transition-colors">
+                      <TableCell className="font-medium font-mono text-sm">{peca.processo}</TableCell>
+                      <TableCell className="font-light">{peca.titulo_peca || "Sem título"}</TableCell>
+                      <TableCell className="font-light text-muted-foreground">{formatDate(peca.created_at)}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex gap-2 justify-end">
                           <Button
@@ -137,6 +137,7 @@ const Historico = () => {
                             size="icon"
                             onClick={() => window.open(`/v/${peca.slug}`, "_blank")}
                             title="Ver página"
+                            className="hover-lift"
                           >
                             <ExternalLink className="h-4 w-4" />
                           </Button>
@@ -154,6 +155,7 @@ const Historico = () => {
                                 document.body.removeChild(link);
                               }}
                               title="Baixar PDF"
+                              className="hover-lift"
                             >
                               <Download className="h-4 w-4" />
                             </Button>
@@ -164,6 +166,7 @@ const Historico = () => {
                               size="icon"
                               onClick={() => window.open(peca.qr_code_url!, "_blank")}
                               title="Ver QR Code"
+                              className="hover-lift"
                             >
                               <QrCode className="h-4 w-4" />
                             </Button>
@@ -173,6 +176,7 @@ const Historico = () => {
                             size="icon"
                             onClick={() => window.open(peca.video_url, "_blank")}
                             title="Ver vídeo"
+                            className="hover-lift"
                           >
                             <Video className="h-4 w-4" />
                           </Button>
