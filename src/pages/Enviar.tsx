@@ -92,53 +92,81 @@ const Enviar = () => {
                 <p className="text-muted-foreground font-light">Sua peça está pronta para compartilhar com o cliente</p>
               </div>
 
-              <div className="space-y-5">
-                <div className="p-5 bg-secondary/50 rounded-xl border border-border/30">
+              <div className="space-y-6">
+                {/* Link da Landing Page */}
+                <div className="p-6 bg-secondary/50 rounded-xl border border-border/30">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-medium text-foreground">Link da Landing Page</span>
-                    <Button variant="ghost" size="sm" onClick={() => window.open(result.landingUrl, '_blank')} className="hover-lift">
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground break-all font-mono">{result.landingUrl}</p>
-                </div>
-
-                <div className="space-y-5">
-                  {result.pdfFinalUrl && (
-                    <div className="border border-border/30 rounded-xl overflow-hidden shadow-sm">
-                      <div className="p-4 bg-card border-b border-border/30">
-                        <h3 className="text-sm font-medium text-foreground">Prévia do PDF com QR Code</h3>
-                      </div>
-                      <iframe
-                        src={result.pdfFinalUrl}
-                        className="w-full h-[500px]"
-                        title="Prévia do PDF"
-                      />
-                    </div>
-                  )}
-                  <div className="grid grid-cols-2 gap-4">
-                    <Button variant="outline" className="w-full hover-lift" onClick={() => window.open(result.qrCodeUrl, '_blank')}>
-                      <QrCode className="h-4 w-4 mr-2" />QR Code
-                    </Button>
+                    <span className="text-sm font-medium text-foreground">Link para o Cliente</span>
                     <Button 
-                      variant="outline" 
-                      className="w-full hover-lift" 
+                      variant="ghost" 
+                      size="sm" 
                       onClick={() => {
-                        const link = document.createElement('a');
-                        link.href = result.pdfFinalUrl;
-                        link.download = `peca_${result.slug}.pdf`;
-                        link.target = '_blank';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
+                        navigator.clipboard.writeText(result.landingUrl);
+                        toast.success("Link copiado!");
                       }}
+                      className="hover-lift"
                     >
-                      <Download className="h-4 w-4 mr-2" />Baixar PDF
+                      Copiar
                     </Button>
                   </div>
+                  <p className="text-sm text-muted-foreground break-all font-mono bg-background/50 p-3 rounded">
+                    {result.landingUrl}
+                  </p>
                 </div>
 
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-gold hover:shadow-lg transition-all" onClick={() => setResult(null)}>
+                {/* Ações principais */}
+                <div className="grid grid-cols-3 gap-4">
+                  <Button 
+                    variant="outline" 
+                    className="w-full hover-lift flex-col h-auto py-4"
+                    onClick={() => window.open(result.landingUrl, '_blank')}
+                  >
+                    <ExternalLink className="h-5 w-5 mb-2" />
+                    <span className="text-xs">Ver Landing</span>
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    className="w-full hover-lift flex-col h-auto py-4"
+                    onClick={() => window.open(result.pdfFinalUrl, '_blank')}
+                  >
+                    <FileText className="h-5 w-5 mb-2" />
+                    <span className="text-xs">Ver PDF</span>
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    className="w-full hover-lift flex-col h-auto py-4"
+                    onClick={() => window.open(result.qrCodeUrl, '_blank')}
+                  >
+                    <QrCode className="h-5 w-5 mb-2" />
+                    <span className="text-xs">Ver QR Code</span>
+                  </Button>
+                </div>
+
+                {/* Botão de download destacado */}
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-gold hover:shadow-lg transition-all py-6"
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = result.pdfFinalUrl;
+                    link.download = `peca_${result.slug}.pdf`;
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    toast.success("Download iniciado!");
+                  }}
+                >
+                  <Download className="h-5 w-5 mr-2" />
+                  Baixar PDF com QR Code
+                </Button>
+
+                <Button 
+                  variant="secondary" 
+                  className="w-full"
+                  onClick={() => setResult(null)}
+                >
                   Enviar Nova Peça
                 </Button>
               </div>
