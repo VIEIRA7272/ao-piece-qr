@@ -84,6 +84,18 @@ const Enviar = () => {
           </div>
           
           <div className="max-w-2xl mx-auto space-y-8">
+            {/* Preview do PDF com QR Code */}
+            <Card className="p-6">
+              <h2 className="text-lg font-semibold mb-4 text-center">Preview do Documento</h2>
+              <div className="relative w-full bg-muted rounded-lg overflow-hidden" style={{ aspectRatio: '8.5/11' }}>
+                <iframe
+                  src={`${result.pdfFinalUrl}#view=FitH`}
+                  className="w-full h-full border-0"
+                  title="Preview do PDF"
+                />
+              </div>
+            </Card>
+
             {/* Success Icon */}
             <div className="flex justify-center">
               <div className="p-4 rounded-full bg-primary/10">
