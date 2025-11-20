@@ -83,111 +83,118 @@ const Enviar = () => {
             </div>
           </div>
           
-          <div className="max-w-2xl mx-auto space-y-8">
-            {/* Preview do PDF com QR Code */}
-            <Card className="p-6">
-              <h2 className="text-lg font-semibold mb-4 text-center">Preview do Documento</h2>
-              <div className="relative w-full bg-muted rounded-lg overflow-hidden" style={{ aspectRatio: '8.5/11' }}>
+          <div className="max-w-2xl mx-auto space-y-6">
+            {/* Success Message */}
+            <div className="text-center space-y-3">
+              <div className="flex justify-center">
+                <div className="p-4 rounded-full bg-primary/10">
+                  <CheckCircle2 className="h-16 w-16 text-primary" />
+                </div>
+              </div>
+              <h1 className="text-3xl font-serif font-bold">Documento Processado!</h1>
+              <p className="text-muted-foreground">
+                O QR Code foi inserido automaticamente na primeira página do seu PDF
+              </p>
+            </div>
+
+            {/* Preview do PDF com QR Code incorporado */}
+            <Card className="p-6 bg-card">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold">📄 PDF Final com QR Code</h2>
+                <div className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+                  Pronto para uso
+                </div>
+              </div>
+              
+              <div className="relative w-full bg-muted/30 rounded-lg overflow-hidden border-2 border-primary/20 mb-4" style={{ aspectRatio: '8.5/11' }}>
                 <iframe
                   src={`${result.pdfFinalUrl}#view=FitH`}
                   className="w-full h-full border-0"
-                  title="Preview do PDF"
+                  title="PDF com QR Code incorporado"
                 />
               </div>
+
+              <p className="text-sm text-center text-muted-foreground mb-4">
+                ⬇️ O QR Code está no canto inferior direito da primeira página
+              </p>
+
+              {/* Download Button - Destaque Principal */}
+              <Button 
+                className="w-full h-14 text-lg font-semibold gap-2"
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = result.pdfFinalUrl;
+                  link.download = `peca_${result.slug}.pdf`;
+                  link.target = '_blank';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  toast.success("Download iniciado!");
+                }}
+              >
+                <FileText className="h-5 w-5" />
+                Baixar PDF Final
+              </Button>
             </Card>
 
-            {/* Success Icon */}
-            <div className="flex justify-center">
-              <div className="p-4 rounded-full bg-primary/10">
-                <CheckCircle2 className="h-16 w-16 text-primary" />
-              </div>
-            </div>
-
-            {/* Title */}
-            <div className="text-center space-y-2">
-              <h1 className="text-3xl font-bold">Processamento Concluído</h1>
-              <p className="text-muted-foreground">Sua peça está pronta para compartilhar</p>
-            </div>
-
-            {/* Link Card */}
-            <Card className="p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <Label className="text-sm font-medium">Link da Landing Page</Label>
+            {/* Informações Adicionais */}
+            <Card className="p-6 bg-card space-y-4">
+              <h3 className="font-semibold text-center">🔗 Link da Landing Page</h3>
+              <p className="text-sm text-muted-foreground text-center">
+                O QR Code do documento leva para este link, onde o vídeo é exibido
+              </p>
+              
+              <div className="flex gap-2">
+                <Input
+                  value={result.landingUrl}
+                  readOnly
+                  className="font-mono text-sm bg-muted/50"
+                />
                 <Button 
-                  variant="ghost" 
-                  size="sm"
+                  variant="outline"
                   onClick={() => {
                     navigator.clipboard.writeText(result.landingUrl);
                     toast.success("Link copiado!");
                   }}
                 >
-                  <Copy className="h-4 w-4 mr-2" />
-                  Copiar
+                  <Copy className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="p-3 bg-muted rounded-lg font-mono text-sm break-all">
-                {result.landingUrl}
+
+              {/* Botões secundários */}
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                <Button 
+                  variant="secondary"
+                  onClick={() => window.open(result.landingUrl, '_blank')}
+                  className="gap-2"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Ver Landing Page
+                </Button>
+                
+                <Button 
+                  variant="secondary"
+                  onClick={() => window.open(result.qrCodeUrl, '_blank')}
+                  className="gap-2"
+                >
+                  <QrCode className="h-4 w-4" />
+                  Ver QR Code
+                </Button>
               </div>
             </Card>
 
-            {/* Action Buttons */}
-            <div className="grid grid-cols-3 gap-3">
-              <Button 
-                variant="outline" 
-                className="flex-col h-20 gap-2"
-                onClick={() => window.open(result.landingUrl, '_blank')}
-              >
-                <ExternalLink className="h-5 w-5" />
-                <span className="text-xs">Landing</span>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="flex-col h-20 gap-2"
-                onClick={() => window.open(result.pdfFinalUrl, '_blank')}
-              >
-                <FileText className="h-5 w-5" />
-                <span className="text-xs">PDF</span>
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                className="flex-col h-20 gap-2"
-                onClick={() => window.open(result.qrCodeUrl, '_blank')}
-              >
-                <QrCode className="h-5 w-5" />
-                <span className="text-xs">QR Code</span>
-              </Button>
-            </div>
-
-            {/* Download Component */}
-            <div className="flex justify-center py-8">
+            {/* Animated Download Component */}
+            <div className="flex justify-center py-4">
               <AnimatedDownload 
                 isAnimating={false}
                 className="w-full"
               />
             </div>
 
-            {/* Download Button */}
-            <Button 
-              className="w-full h-12"
-              onClick={() => {
-                const link = document.createElement('a');
-                link.href = result.pdfFinalUrl;
-                link.download = `peca_${result.slug}.pdf`;
-                link.target = '_blank';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                toast.success("Download iniciado!");
-              }}
-            >
-              Baixar PDF com QR Code
-            </Button>
-
+            {/* Nova Peça */}
             <Button 
               variant="outline" 
-              className="w-full"
+              className="w-full h-12"
               onClick={() => setResult(null)}
             >
               Enviar Nova Peça
